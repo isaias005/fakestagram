@@ -1,0 +1,7 @@
+{
+  "name": "fakestagram",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
