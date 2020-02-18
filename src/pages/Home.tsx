@@ -1,23 +1,44 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
-import ExploreContainer from '../components/ExploreContainer';
+import React, { useEffect } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon } from '@ionic/react';
+import { exit } from 'ionicons/icons';
+import { useHistory } from 'react-router-dom';
+import Gallery from '../components/Gallery';
+
 import './Home.css';
 
-const Home: React.FC = () => {
+const Home: React.FC<any> = (props) => {
+  const history = useHistory();
+
+  const onLogout = () => {
+    props.firebase
+      .doSignOut()
+      .then(() => {
+        history.push("/login");
+        alert("Desconectado");
+      })
+      .catch((error: Error) => {
+        alert("Ocurrio un error al desconectar: " + error.message);
+      });
+  }
+  
+  useEffect(()=>{
+    if (!props.authUser) { history.push("/login") };
+  }, [props.authUser])
+
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Blank</IonTitle>
+        <IonToolbar color="primary">
+          <IonTitle>Fakestagram</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={onLogout} color="light">
+              <IonIcon slot="icon-only" icon={exit} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer />
+        <Gallery />
       </IonContent>
     </IonPage>
   );
