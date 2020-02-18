@@ -44,7 +44,7 @@ const LoginForm: React.FC<any> = (props) => {
               <IonButton disabled={isInvalid} onClick={onLogin}>Loguearse</IonButton>
             </IonRow>
             <IonRow className="ion-justify-content-center ion-padding-top">
-              <IonButton onClick={goToSignup} fill="clear">Ya tienes una cuenta? Registrate</IonButton>
+              <IonButton onClick={goToSignup} fill="clear">No tienes una cuenta? Registrate</IonButton>
             </IonRow>
           </IonCardContent>
         </IonCard>
