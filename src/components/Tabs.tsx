@@ -14,12 +14,12 @@ const Tabs: React.FC<any> = (props) => {
             <IonTabs>
                 <IonRouterOutlet>
                     <Route path="/:tab(home)" exact={true} >
-                    <FirebaseContext.Consumer>
-                        {firebase => <Home authUser={props.authUser} firebase={firebase}/>}
-                    </FirebaseContext.Consumer>
+                        <FirebaseContext.Consumer>
+                            {firebase => <Home authUser={props.authUser} firebase={firebase} />}
+                        </FirebaseContext.Consumer>
                     </Route>
                     <Route path="/:tab(publish)">
-                        <Publish authUser={props.authUser}/>
+                        <Publish firebase={props.firebase} authUser={props.authUser} />
                     </Route>
                     <Redirect exact from="/" to="home" />
                 </IonRouterOutlet>

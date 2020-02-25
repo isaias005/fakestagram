@@ -1,5 +1,6 @@
-import app from 'firebase/app'
-import 'firebase/auth'
+import app from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 const config = {
     apiKey: "AIzaSyDeBpGmDPkX0ee1ZiiVZKhgY540rK5Mtx4",
@@ -14,18 +15,29 @@ const config = {
 
 class Firebase {
     auth: app.auth.Auth;
-    
-    constructor(){
+    db: app.firestore.Firestore;
+
+    constructor() {
         app.initializeApp(config);
         this.auth = app.auth();
+        this.db = app.firestore();
     }
 
-    doCreateUserWithEmailAndPassword = (email: string, password: string) =>{
+    doCreateUserWithEmailAndPassword = (email: string, password: string) => {
         return this.auth.createUserWithEmailAndPassword(email, password);
     }
 
-    doSignInWithEmailAndPassword = (email: string, password: string) =>{
+    doSignInWithEmailAndPassword = (email: string, password: string) => {
         return this.auth.signInWithEmailAndPassword(email, password);
+    }
+
+    getImages = async () => {
+        const snapshot = await this.db.collection("images").get();
+        return snapshot.docs.map(doc => doc.data());
+    }
+
+    uploadImage = async (url: string) => {
+        return await this.db.collection("images").add({ url: url });
     }
 
     doSignOut = () => this.auth.signOut();

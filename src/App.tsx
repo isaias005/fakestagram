@@ -47,7 +47,7 @@ const App: React.FC = () => {
             <Signup authUser={authUser} setAuthUser={setAuthUser} />
           </Route>
         </IonRouterOutlet>
-        <Tabs authUser={authUser} />
+        <Tabs firebase={firebase} authUser={authUser} />
       </IonReactRouter>
     </IonApp>
   );

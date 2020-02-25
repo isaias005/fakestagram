@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonButton, IonIcon } from '@ionic/react';
 import { exit } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +8,7 @@ import './Home.css';
 
 const Home: React.FC<any> = (props) => {
   const history = useHistory();
+  const [images, setImages] = useState<Array<string>>([]);
 
   const onLogout = () => {
     props.firebase
@@ -20,10 +21,17 @@ const Home: React.FC<any> = (props) => {
         alert("Ocurrio un error al desconectar: " + error.message);
       });
   }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     if (!props.authUser) { history.push("/login") };
-  }, [props.authUser])
+    props.firebase.getImages()
+      .then((images: any) => {
+        setImages(images);
+      })
+      .catch((err: Error) => {
+        alert(err.message);
+      })
+  }, [props.authUser,props.firebase])
 
   return (
     <IonPage>
@@ -38,7 +46,7 @@ const Home: React.FC<any> = (props) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <Gallery />
+        <Gallery images={images} />
       </IonContent>
     </IonPage>
   );
